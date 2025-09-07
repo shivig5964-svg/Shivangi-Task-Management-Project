@@ -195,7 +195,7 @@ const Dashboard = () => {
   const handleToggleStatus = async (task) => {
     try {
       const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-      const response = await axios.patch(`/api/tasks/${task._id}/status`, {
+      const response = await axios.patch(`${getTaskEndpoint('BASE')}/${task._id}/status`, {
         status: newStatus
       });
       setTasks(prev => prev.map(t => 

@@ -2,10 +2,14 @@
 // This file handles environment-based API URL configuration
 
 const getApiUrl = () => {
-  const environment = process.env.REACT_APP_ENVIRONMENT || 'local';
+  // Auto-detect environment based on hostname
+  const isProduction = window.location.hostname.includes('vercel.app') || 
+                      window.location.hostname.includes('netlify.app') ||
+                      window.location.hostname.includes('github.io') ||
+                      process.env.NODE_ENV === 'production';
   
-  if (environment === 'production') {
-    return process.env.REACT_APP_API_URL_PRODUCTION || 'https://your-production-api.com/api';
+  if (isProduction) {
+    return process.env.REACT_APP_API_URL_PRODUCTION || 'https://shivangi-task-management-project.onrender.com/api';
   } else {
     return process.env.REACT_APP_API_URL_LOCAL || 'http://localhost:5000/api';
   }
