@@ -9,6 +9,8 @@ import { useAuth } from '../context/AuthContext';
 import { getTaskEndpoint } from '../config/api';
 
 const Dashboard = () => {
+  // Debug: Log the API configuration
+  console.log('Dashboard loaded - API Base URL:', getTaskEndpoint('BASE'));
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [stats, setStats] = useState(null);
@@ -195,7 +197,14 @@ const Dashboard = () => {
   const handleToggleStatus = async (task) => {
     try {
       const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-      const response = await axios.patch(`${getTaskEndpoint('BASE')}/${task._id}/status`, {
+      const url = `${getTaskEndpoint('BASE')}/${task._id}/status`;
+      
+      // Debug logging
+      console.log('PATCH Request URL:', url);
+      console.log('Task ID:', task._id);
+      console.log('New Status:', newStatus);
+      
+      const response = await axios.patch(url, {
         status: newStatus
       });
       setTasks(prev => prev.map(t => 

@@ -8,15 +8,25 @@ const getApiUrl = () => {
                       window.location.hostname.includes('github.io') ||
                       process.env.NODE_ENV === 'production';
   
-  if (isProduction) {
-    return process.env.REACT_APP_API_URL_PRODUCTION || 'https://shivangi-task-management-project.onrender.com/api';
-  } else {
-    return process.env.REACT_APP_API_URL_LOCAL || 'http://localhost:5000/api';
-  }
+  const apiUrl = isProduction 
+    ? (process.env.REACT_APP_API_URL_PRODUCTION || 'https://shivangi-task-management-project.onrender.com/api')
+    : (process.env.REACT_APP_API_URL_LOCAL || 'http://localhost:5000/api');
+  
+  // Debug logging
+  console.log('Environment Detection:', {
+    hostname: window.location.hostname,
+    isProduction,
+    apiUrl,
+    nodeEnv: process.env.NODE_ENV
+  });
+  
+  return apiUrl;
 };
 
 const API_CONFIG = {
-  BASE_URL: getApiUrl(),
+  get BASE_URL() {
+    return getApiUrl();
+  },
   ENDPOINTS: {
     AUTH: {
       LOGIN: '/auth/login',
