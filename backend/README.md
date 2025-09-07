@@ -2,6 +2,11 @@
 
 A RESTful API built with Node.js, Express.js, and MongoDB for the Task Management Application.
 
+## 🌐 Live API
+
+- **API Base URL**: [https://shivangi-task-management-project.onrender.com/api](https://shivangi-task-management-project.onrender.com/api)
+- **Health Check**: [https://shivangi-task-management-project.onrender.com/api/health](https://shivangi-task-management-project.onrender.com/api/health)
+
 ## 🏗️ Architecture
 
 ```
@@ -93,7 +98,7 @@ The server will start on `http://localhost:5000`
 
 ### Base URL
 - **Local**: `http://localhost:5000/api`
-- **Production**: `https://your-production-api.com/api`
+- **Production**: `https://shivangi-task-management-project.onrender.com/api`
 
 ### Authentication Endpoints
 
@@ -175,7 +180,7 @@ Authorization: Bearer jwt-token-here
 ```
 
 **Query Parameters:**
-- `status` (optional): Filter by task status (`pending`, `in-progress`, `completed`)
+- `status` (optional): Filter by task status (`pending`, `completed`)
 
 **Response:**
 ```json
@@ -187,11 +192,31 @@ Authorization: Bearer jwt-token-here
       "title": "Complete project",
       "description": "Finish the task management app",
       "status": "pending",
-      "priority": "high",
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"
     }
   ]
+}
+```
+
+#### Get Single Task
+```http
+GET /api/tasks/:id
+Authorization: Bearer jwt-token-here
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "task": {
+    "id": "task-id",
+    "title": "Complete project",
+    "description": "Finish the task management app",
+    "status": "pending",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
 }
 ```
 
@@ -203,8 +228,7 @@ Content-Type: application/json
 
 {
   "title": "New Task",
-  "description": "Task description",
-  "priority": "medium"
+  "description": "Task description"
 }
 ```
 
@@ -218,7 +242,6 @@ Content-Type: application/json
     "title": "New Task",
     "description": "Task description",
     "status": "pending",
-    "priority": "medium",
     "createdAt": "2024-01-01T00:00:00.000Z",
     "updatedAt": "2024-01-01T00:00:00.000Z"
   }
@@ -234,8 +257,7 @@ Content-Type: application/json
 {
   "title": "Updated Task",
   "description": "Updated description",
-  "status": "in-progress",
-  "priority": "high"
+  "status": "completed"
 }
 ```
 
@@ -248,8 +270,34 @@ Content-Type: application/json
     "id": "task-id",
     "title": "Updated Task",
     "description": "Updated description",
-    "status": "in-progress",
-    "priority": "high",
+    "status": "completed",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+#### Update Task Status
+```http
+PATCH /api/tasks/:id/status
+Authorization: Bearer jwt-token-here
+Content-Type: application/json
+
+{
+  "status": "completed"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Task status updated successfully",
+  "task": {
+    "id": "task-id",
+    "title": "Updated Task",
+    "description": "Updated description",
+    "status": "completed",
     "createdAt": "2024-01-01T00:00:00.000Z",
     "updatedAt": "2024-01-01T00:00:00.000Z"
   }
@@ -282,8 +330,7 @@ Authorization: Bearer jwt-token-here
   "success": true,
   "stats": {
     "total": 10,
-    "pending": 3,
-    "inProgress": 4,
+    "pending": 7,
     "completed": 3,
     "completionRate": 30
   }
@@ -318,7 +365,7 @@ GET /api/health
 | `JWT_SECRET` | JWT signing secret | - | Yes |
 | `JWT_EXPIRE` | JWT expiration time | 7d | No |
 | `FRONTEND_URL_LOCAL` | Local frontend URL | http://localhost:3000 | No |
-| `FRONTEND_URL_PRODUCTION` | Production frontend URL | - | Yes (for production) |
+| `FRONTEND_URL_PRODUCTION` | Production frontend URL | https://shivangi-task-management-project-jy4o7fqg4.vercel.app | Yes (for production) |
 | `RATE_LIMIT_WINDOW_MS` | Rate limit window | 900000 | No |
 | `RATE_LIMIT_MAX_REQUESTS` | Max requests per window | 100 | No |
 
@@ -327,9 +374,9 @@ GET /api/health
 #### User Model
 ```javascript
 {
-  name: String (required),
-  email: String (required, unique),
-  password: String (required, hashed),
+  username: String (required, unique, 3-30 chars),
+  email: String (required, unique, valid email format),
+  password: String (required, hashed, min 6 chars),
   createdAt: Date,
   updatedAt: Date
 }
@@ -338,11 +385,10 @@ GET /api/health
 #### Task Model
 ```javascript
 {
-  title: String (required),
-  description: String,
-  status: String (enum: ['pending', 'in-progress', 'completed']),
-  priority: String (enum: ['low', 'medium', 'high']),
-  user: ObjectId (ref: 'User'),
+  title: String (required, max 100 chars),
+  description: String (max 500 chars),
+  status: String (enum: ['pending', 'completed'], default: 'pending'),
+  user: ObjectId (ref: 'User', required),
   createdAt: Date,
   updatedAt: Date
 }

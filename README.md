@@ -2,11 +2,16 @@
 
 A full-stack task management application built with React.js frontend and Node.js/Express backend with MongoDB database.
 
+## 🌐 Live Demo
+
+- **Frontend**: [https://shivangi-task-management-project-jy4o7fqg4.vercel.app](https://shivangi-task-management-project-jy4o7fqg4.vercel.app)
+- **Backend API**: [https://shivangi-task-management-project.onrender.com/api](https://shivangi-task-management-project.onrender.com/api)
+
 ## 🚀 Features
 
 - **User Authentication**: Register, login, and secure JWT-based authentication
 - **Task Management**: Create, read, update, and delete tasks
-- **Task Filtering**: Filter tasks by status (pending, in-progress, completed)
+- **Task Filtering**: Filter tasks by status (pending, completed)
 - **Task Statistics**: View task statistics and progress
 - **Responsive Design**: Modern UI that works on desktop and mobile
 - **Environment Configuration**: Support for both local and production environments
@@ -14,10 +19,14 @@ A full-stack task management application built with React.js frontend and Node.j
 ## 🏗️ Project Structure
 
 ```
-task-management-app/
+Shivangi Assignment/
 ├── frontend/                 # React.js frontend application
 │   ├── src/
 │   │   ├── components/      # Reusable UI components
+│   │   │   ├── Auth/        # Authentication components
+│   │   │   ├── Layout/      # Layout components
+│   │   │   ├── Tasks/       # Task management components
+│   │   │   └── UI/          # Generic UI components
 │   │   ├── context/         # React context for state management
 │   │   ├── pages/           # Main application pages
 │   │   └── config/          # API configuration
@@ -30,6 +39,7 @@ task-management-app/
 │   ├── middleware/          # Custom middleware
 │   ├── services/            # Business logic
 │   ├── config/              # Database configuration
+│   ├── constants/           # Application constants
 │   └── package.json
 └── README.md               # This file
 ```
@@ -154,6 +164,8 @@ The frontend application will start on `http://localhost:3000`
 
 ## 🌐 API Endpoints
 
+**Base URL**: `https://shivangi-task-management-project.onrender.com/api`
+
 ### Authentication
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
@@ -161,8 +173,10 @@ The frontend application will start on `http://localhost:3000`
 
 ### Tasks
 - `GET /api/tasks` - Get all tasks for authenticated user
+- `GET /api/tasks/:id` - Get a single task by ID
 - `POST /api/tasks` - Create a new task
 - `PUT /api/tasks/:id` - Update a task
+- `PATCH /api/tasks/:id/status` - Update task status only
 - `DELETE /api/tasks/:id` - Delete a task
 - `GET /api/tasks/stats/summary` - Get task statistics
 
@@ -230,8 +244,8 @@ The application supports two environments:
 - Automatic token refresh
 
 ### Task Management
-- Create tasks with title, description, and priority
-- Update task status (pending, in-progress, completed)
+- Create tasks with title and description
+- Update task status (pending, completed)
 - Delete tasks
 - Filter tasks by status
 - View task statistics

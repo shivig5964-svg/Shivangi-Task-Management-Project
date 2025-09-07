@@ -2,6 +2,11 @@
 
 A modern React.js frontend application for the Task Management System with responsive design and real-time updates.
 
+## 🌐 Live Demo
+
+- **Frontend Application**: [https://shivangi-task-management-project-jy4o7fqg4.vercel.app](https://shivangi-task-management-project-jy4o7fqg4.vercel.app)
+- **Backend API**: [https://shivangi-task-management-project.onrender.com/api](https://shivangi-task-management-project.onrender.com/api)
+
 ## 🏗️ Project Structure
 
 ```
@@ -100,7 +105,7 @@ The application will open in your browser at `http://localhost:3000`
 
 #### TaskForm Component (`components/Tasks/TaskForm.js`)
 - Create new tasks or edit existing ones
-- Form fields: title, description, priority
+- Form fields: title, description
 - Validation and error handling
 - Submit and cancel functionality
 
@@ -112,12 +117,12 @@ The application will open in your browser at `http://localhost:3000`
 
 #### TaskItem Component (`components/Tasks/TaskItem.js`)
 - Individual task display
-- Status indicators and priority badges
+- Status indicators
 - Edit and delete actions
 - Responsive design
 
 #### TaskFilters Component (`components/Tasks/TaskFilters.js`)
-- Filter tasks by status (all, pending, in-progress, completed)
+- Filter tasks by status (all, pending, completed)
 - Search functionality
 - Clear filters option
 
@@ -171,13 +176,16 @@ The API configuration automatically handles environment-based URL selection:
 ```javascript
 // Automatically selects API URL based on environment
 const getApiUrl = () => {
-  const environment = process.env.REACT_APP_ENVIRONMENT || 'local';
+  const isProduction = window.location.hostname.includes('vercel.app') || 
+                      window.location.hostname.includes('netlify.app') ||
+                      window.location.hostname.includes('github.io') ||
+                      process.env.NODE_ENV === 'production';
   
-  if (environment === 'production') {
-    return process.env.REACT_APP_API_URL_PRODUCTION;
-  } else {
-    return process.env.REACT_APP_API_URL_LOCAL;
-  }
+  const apiUrl = isProduction 
+    ? (process.env.REACT_APP_API_URL_PRODUCTION || 'https://shivangi-task-management-project.onrender.com/api')
+    : (process.env.REACT_APP_API_URL_LOCAL || 'http://localhost:5000/api');
+  
+  return apiUrl;
 };
 ```
 
@@ -186,7 +194,7 @@ const getApiUrl = () => {
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
 | `REACT_APP_API_URL_LOCAL` | Local backend API URL | http://localhost:5000/api | No |
-| `REACT_APP_API_URL_PRODUCTION` | Production backend API URL | - | Yes (for production) |
+| `REACT_APP_API_URL_PRODUCTION` | Production backend API URL | https://shivangi-task-management-project.onrender.com/api | No |
 | `REACT_APP_ENVIRONMENT` | Environment mode (local/production) | local | No |
 
 ## 🎯 Features
@@ -200,9 +208,8 @@ const getApiUrl = () => {
 ### Task Management
 - **CRUD Operations**: Create, read, update, and delete tasks
 - **Real-time Updates**: Immediate UI updates after operations
-- **Task Filtering**: Filter by status (pending, in-progress, completed)
+- **Task Filtering**: Filter by status (pending, completed)
 - **Task Statistics**: Visual progress tracking and completion rates
-- **Priority Levels**: Low, medium, and high priority tasks
 
 ### User Experience
 - **Responsive Design**: Works on desktop, tablet, and mobile
