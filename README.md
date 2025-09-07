@@ -96,7 +96,7 @@ Edit `backend/.env` with your configuration:
 ```env
 # Server Configuration
 PORT=5000
-NODE_ENV=development
+ENVIRONMENT=development
 
 # Database Configuration
 MONGODB_URI_LOCAL=mongodb://localhost:27017/task-management
@@ -200,7 +200,7 @@ The application supports two environments:
 ## 🚀 Deployment
 
 ### Backend Deployment
-1. Set `NODE_ENV=production` and `ENVIRONMENT=production`
+1. Set `ENVIRONMENT=production` and `ENVIRONMENT=production`
 2. Update `MONGODB_URI_PRODUCTION` with your production database URL
 3. Update `FRONTEND_URL_PRODUCTION` with your production frontend URL
 4. Set a strong `JWT_SECRET`

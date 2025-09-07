@@ -56,7 +56,7 @@ Edit `.env` file with your configuration:
 ```env
 # Server Configuration
 PORT=5000
-NODE_ENV=development
+ENVIRONMENT=development
 
 # Database Configuration
 MONGODB_URI_LOCAL=mongodb://localhost:27017/task-management
@@ -311,7 +311,7 @@ GET /api/health
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
 | `PORT` | Server port | 5000 | No |
-| `NODE_ENV` | Environment mode | development | No |
+| `ENVIRONMENT` | Environment mode | development | No |
 | `ENVIRONMENT` | App environment (local/production) | local | No |
 | `MONGODB_URI_LOCAL` | Local MongoDB connection string | mongodb://localhost:27017/task-management | No |
 | `MONGODB_URI_PRODUCTION` | Production MongoDB connection string | - | Yes (for production) |
@@ -390,7 +390,7 @@ Logs are output to the console and can be configured to write to files.
 ## 🚀 Deployment
 
 ### Production Checklist
-- [ ] Set `NODE_ENV=production`
+- [ ] Set `ENVIRONMENT=production`
 - [ ] Set `ENVIRONMENT=production`
 - [ ] Configure production MongoDB URI
 - [ ] Set strong JWT secret
@@ -429,7 +429,7 @@ Logs are output to the console and can be configured to write to files.
    - Kill existing process on the port
 
 ### Debug Mode
-Set `NODE_ENV=development` for detailed error messages and logging.
+Set `ENVIRONMENT=development` for detailed error messages and logging.
 
 ## 📝 API Response Format
 
