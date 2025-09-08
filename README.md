@@ -4,7 +4,7 @@ A full-stack task management application built with React.js frontend and Node.j
 
 ## 🌐 Live Demo
 
-- **Frontend**: [https://shivangi-task-management-project.vercel.app/](https://shivangi-task-management-project-jy4o7fqg4.vercel.app)
+- **Frontend**: [https://shivangi-task-management-project.vercel.app/](https://shivangi-task-management-project.vercel.app/)
 - **Backend API**: [https://shivangi-task-management-project.onrender.com/api](https://shivangi-task-management-project.onrender.com/api)
 
 ## 👤 Demo Account for Interviewers
