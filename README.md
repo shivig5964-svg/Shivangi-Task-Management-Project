@@ -7,6 +7,15 @@ A full-stack task management application built with React.js frontend and Node.j
 - **Frontend**: [https://shivangi-task-management-project-jy4o7fqg4.vercel.app](https://shivangi-task-management-project-jy4o7fqg4.vercel.app)
 - **Backend API**: [https://shivangi-task-management-project.onrender.com/api](https://shivangi-task-management-project.onrender.com/api)
 
+## 👤 Demo Account for Interviewers
+
+To test the application with pre-existing tasks, please use the following demo account:
+
+- **Username**: `shivig123`
+- **Password**: `Shivig123`
+
+This account contains sample tasks to demonstrate the full functionality of the task management system.
+
 ## 🚀 Features
 
 - **User Authentication**: Register, login, and secure JWT-based authentication

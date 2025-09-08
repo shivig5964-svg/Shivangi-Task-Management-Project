@@ -1,29 +1,75 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirmText = "Delete", cancelText = "Cancel" }) => {
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      // Store original overflow style
+      const originalOverflow = document.body.style.overflow;
+      // Prevent scrolling
+      document.body.style.overflow = 'hidden';
+      
+      // Cleanup function to restore scrolling
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
+
+  // Handle escape key press
+  useEffect(() => {
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => {
+        document.removeEventListener('keydown', handleEscapeKey);
+      };
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
-  return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const modalContent = (
+    <div 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999,
+        padding: '20px',
+        boxSizing: 'border-box'
+      }}
+      onClick={handleBackdropClick}
+    >
       <div style={{
         backgroundColor: 'white',
         borderRadius: '12px',
         padding: '24px',
         maxWidth: '400px',
-        width: '90%',
+        width: '100%',
+        maxHeight: '90vh',
+        overflow: 'auto',
         boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
-        animation: 'modalSlideIn 0.3s ease-out'
+        animation: 'modalSlideIn 0.3s ease-out',
+        position: 'relative'
       }}>
         {/* Header */}
         <div style={{
@@ -121,6 +167,9 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirm
       </div>
     </div>
   );
+
+  // Render modal using portal to document body
+  return createPortal(modalContent, document.body || document.documentElement);
 };
 
 export default ConfirmationModal;
